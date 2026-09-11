@@ -45,7 +45,6 @@ footer{
 }
 .tarjeta a{
     color: #2b6cc7;
-    text-decoration: none;
 }
 .tarjeta a:hover{
     text-decoration: underline;
