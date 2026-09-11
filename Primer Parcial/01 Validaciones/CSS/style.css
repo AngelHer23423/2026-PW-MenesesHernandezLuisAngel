@@ -19,7 +19,7 @@ header a{
 main{
     max-width: 960px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 footer{
     text-align: center;
@@ -41,7 +41,7 @@ footer{
 }
 .tarjeta h2{
     margin-top: 0;
-    font-size: 0.1rem;
+    font-size: 1.5rem;
 }
 .tarjeta a{
     color: #2b6cc7;
