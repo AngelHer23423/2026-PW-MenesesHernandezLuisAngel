@@ -1,0 +1,38 @@
+body{
+    background-color: #160228;
+    font-family:'Times New Roman', Times, serif
+}
+table{
+    background-color: #408175;
+    margin:1rem;
+}
+.titulocontent{
+    text-align: center;
+}
+.titulocontent h1{
+    color: #FFFFFF;
+    font-size: 3rem;
+}
+.titulocontent p{
+    color: #FFFFFF;
+    font-size: 1.5rem;
+}
+
+table {
+    border-collapse: collapse; 
+    margin: auto; 
+    border: 2px solid #333;
+    font-size:1.5rem;
+}
+th, td {
+    border: 1px solid #B5B9F0;
+    padding: 8px 12px;
+    text-align: center;
+}
+thead{
+    background-color: #2E4540;
+    color:#B5B9F0
+}
+a{
+    color:#B5B9F0
+}
