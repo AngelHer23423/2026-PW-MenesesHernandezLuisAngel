@@ -10,18 +10,24 @@
   <header><a href="./detalle.html">Volver al taller</a>
   </header>
   <main>
-    <form class="Formulario_registro "action="">
+    <form class="Formulario_registro" id="form-registro">
       <h1>Registrar asistencia</h1>
-      <div>
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required>
-      </div>
-      <div>
-        <label for="boleta">Numero de Boleta</label>
-        <input type="text" id="boleta" name="boleta" required>
-      </div>
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required>
+      <span class="error" id="error-nombre"></span>
+    
+      <label for="boleta">Numero de Boleta</label>
+      <input type="text" id="boleta" name="boleta" required>
+      <span class="error" id="error-boleta"></span>
+
+      <label for="fecha" class="fecha">Fecha de registro (DD/MM/AAAA)</label>
+      <input type="text" name="fecha" id="fecha" placeholder="DD/MM/AAAA">
+      <span class="error" id="error-fecha"></span> 
+
       <button type="submit">Registrar</button>
+      <p class="mensaje-exito" id="mensaje-exito"></p>
     </form>
   </main>
+  <script src="./js/validaciones.js"></script>
 </body>
 </html>
