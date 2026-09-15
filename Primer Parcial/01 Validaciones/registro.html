@@ -10,19 +10,25 @@
   <header><a href="./detalle.html">Volver al taller</a>
   </header>
   <main>
-    <form class="Formulario_registro" id="form-registro">
+    <form class="Formulario_registro" id="form-registro" novalidate>
       <h1>Registrar asistencia</h1>
       <label for="nombre">Nombre</label>
       <input type="text" id="nombre" name="nombre" required>
       <span class="error" id="error-nombre"></span>
-    
+      <br>
+      <br>
+
       <label for="boleta">Numero de Boleta</label>
       <input type="text" id="boleta" name="boleta" required>
       <span class="error" id="error-boleta"></span>
+      <br>
+      <br>
 
       <label for="fecha" class="fecha">Fecha de registro (DD/MM/AAAA)</label>
-      <input type="text" name="fecha" id="fecha" placeholder="DD/MM/AAAA">
+      <input type="text" name="fecha" id="fecha" placeholder="DD/MM/AAAA" required>
       <span class="error" id="error-fecha"></span> 
+      <br>
+      <br>
 
       <button type="submit">Registrar</button>
       <p class="mensaje-exito" id="mensaje-exito"></p>

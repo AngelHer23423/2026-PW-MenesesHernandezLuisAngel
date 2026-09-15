@@ -56,6 +56,27 @@ a{
 .info_taller a{
     color:black;
 }
+.Formulario_registro input:invalid{
+    border: 2px solid red;
+    background-color: #ffe5ef;
+}
+.Formulario_registro button:hover{
+    background-color: #2b6cc7;
+    color: white;
+}
+.Formulario_registro button{
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+}
+.Formulario_registro input{
+    background-color: #dbd4cd;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 0-5rem;
+}
+.Formulario_registro label{
+    font-size: 20px;
+}
 
 
 
