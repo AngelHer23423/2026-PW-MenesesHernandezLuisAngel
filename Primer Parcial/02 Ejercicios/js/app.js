@@ -7,7 +7,19 @@ const talleres = [
 
 
 function pintarTabla(){
-    //debe de obtener la tabla y rellenarla con los datos de talleres
+    const tabla = document.getElementById('tabla-talleres');
+    tabla.innerHTML = '';
+
+    talleres.forEach((taller) => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${taller.nombre}</td>
+            <td>${taller.instructor}</td>
+            <td>${taller.cupo}</td>
+            <td>${taller.inscritos}</td>
+        `;
+        tabla.appendChild(fila);
+    });    //debe de obtener la tabla y rellenarla con los datos de talleres
 }
 
 const formArreglos = document.getElementById('form-arreglos');
@@ -22,10 +34,20 @@ formArreglos.addEventListener('submit', (evento) =>{
 
     switch(operacion){
         case 'forEach':
-            resultado = talleres.map((t) => `- ${t.nombre} (${t.inscritos}/${t.cupo})`).join('\n');
+            resultado = talleres.map((t) => `- ${t.nombre} ${t.instructor} (${t.inscritos}/${t.cupo})`).join('\n');
+            break;
+        case 'map':
+            resultado = talleres.map((t) => t.nombre).join(', ');
+            break;
+        case 'filter':
+            resultado = talleres.filter((t) => t.inscritos >= t.cupo).map((t) => t.nombre).join(', ');
+            break;
+        case 'find':
+            const tallerMaria = talleres.find((t) => t.instructor === 'Ing. María López');
+            resultado = tallerMaria ? `${tallerMaria.nombre} (${tallerMaria.inscritos}/${tallerMaria.cupo})` : 'No se encontró ningún taller impartido por Ing. María López';
             break;
     }
-
-
     resultadoArreglos.textContent = resultado;
+    pintarTabla();
 });
+
