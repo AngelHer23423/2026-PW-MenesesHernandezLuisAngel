@@ -6,20 +6,23 @@ const talleres = [
 ];
 
 
-function pintarTabla(){
-    const tabla = document.getElementById('tabla-talleres');
+function pintarTabla() {
+    const tabla = document.getElementById('tabla-cuerpo');
+
     tabla.innerHTML = '';
 
     talleres.forEach((taller) => {
         const fila = document.createElement('tr');
+
         fila.innerHTML = `
             <td>${taller.nombre}</td>
             <td>${taller.instructor}</td>
             <td>${taller.cupo}</td>
             <td>${taller.inscritos}</td>
         `;
+
         tabla.appendChild(fila);
-    });    //debe de obtener la tabla y rellenarla con los datos de talleres
+    });
 }
 
 const formArreglos = document.getElementById('form-arreglos');
