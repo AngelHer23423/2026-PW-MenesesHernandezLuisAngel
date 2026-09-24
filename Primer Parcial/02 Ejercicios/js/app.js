@@ -3,6 +3,7 @@ const talleres = [
     { nombre: 'Fundamentos de Redes', instructor: 'Ing. Carlos Ramírez', cupo: 30, inscritos: 18 },
     { nombre: 'Diseño de Bases de Datos', instructor: 'Ing. Ana Torres', cupo: 20, inscritos: 20 },
     { nombre: 'Desarrollo Web con JS', instructor: 'Ing. María López', cupo: 25, inscritos: 10 },
+    { nombre: 'Programación Movil', instructor: 'Ing. Juan Pérez', cupo: 20, inscritos: 20 },
 ];
 
 
@@ -46,11 +47,13 @@ formArreglos.addEventListener('submit', (evento) =>{
             resultado = talleres.filter((t) => t.inscritos >= t.cupo).map((t) => t.nombre).join(', ');
             break;
         case 'find':
-            const tallerMaria = talleres.find((t) => t.instructor === 'Ing. María López');
-            resultado = tallerMaria ? `${tallerMaria.nombre} (${tallerMaria.inscritos}/${tallerMaria.cupo})` : 'No se encontró ningún taller impartido por Ing. María López';
+            case "buscarInstructor":
+            let nombreInstructor = prompt("Ingresa el nombre del instructor:");
+            const tallerEncontrado = talleres.find((t) => t.instructor.toLowerCase() === nombreInstructor.toLowerCase());
+            resultado = tallerEncontrado ? `${tallerEncontrado.nombre}` : `No se encontró ningún taller impartido por ${nombreInstructor}`;
             break;
     }
     resultadoArreglos.textContent = resultado;
-    pintarTabla();
 });
+pintarTabla();
 

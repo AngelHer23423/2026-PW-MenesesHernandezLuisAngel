@@ -55,3 +55,16 @@ select {
     background-color: #eaf2ff;
     border: 1px solid #4a69bd;
 }
+header {
+    background-color: #4a69bd;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+footer {
+    background-color: #4a69bd;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
