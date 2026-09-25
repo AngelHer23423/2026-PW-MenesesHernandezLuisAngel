@@ -74,7 +74,7 @@ formObjeto.addEventListener('submit', (evento) => {
     let resultado;
     switch(operacion){
         case 'keys':
-            resultado= JSON.stringify(Object.keys(taller))
+            resultado= JSON.stringify(Object.keys(taller));
             break;
         case 'values':
             break;
