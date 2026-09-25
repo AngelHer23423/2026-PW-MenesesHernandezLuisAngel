@@ -96,6 +96,7 @@ formObjeto.addEventListener('submit', (evento) => {
             ].join('\n');
             break;
     }
+    resultado.textContent=resultado;
 })
 
 
