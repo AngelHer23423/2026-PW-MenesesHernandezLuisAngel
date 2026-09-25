@@ -68,9 +68,9 @@ formObjeto.addEventListener('submit', (evento) => {
         nombre : document.getElementById('obj-nombre').value,
         instructor : document.getElementById('obj-instructor').value,
         cupo : Number(document.getElementById('obj-cupo').value),
-        inscritos : Number(document.getElementById('obj-inscritos').value,)
+        inscritos : Number(document.getElementById('obj-inscritos').value)
     }
-    const operacion = document.getElementById('opercion-objeto').value;
+    const operacion = document.getElementById('operacion-objeto').value;
     let resultado;
     switch(operacion){
         case 'keys':
