@@ -48,7 +48,7 @@ select {
     padding: 5px;
 }
 
-#resultado-arreglo {
+.resultado {
     display: block;
     margin-top: 10px;
     padding: 10px;
@@ -67,4 +67,37 @@ footer {
     padding: 10px;
     text-align: center;
     margin-top: 20px;
+}
+.campo {
+margin-bottom: 10px;
+}
+
+.campo label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+
+.campo input,
+.campo select {
+width: 99%;
+
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.campo input:focus,
+.campo select:focus {
+outline: none;
+border-color: #4a69bd;
+}
+.contenedor-gifs{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.tenor-gif-embed{
+    width: 45%;
 }
