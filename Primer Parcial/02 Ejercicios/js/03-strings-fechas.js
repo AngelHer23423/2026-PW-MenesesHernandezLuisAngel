@@ -40,7 +40,7 @@ function fechaDesdeTexto(textoFecha) {
 // getDay(); luego calcula cuántos días de diferencia hay contra `new Date()`
 const fechaAsistencia = fechaDesdeTexto('05(09/2026');
 console.log('Fecha construida :', fechaAsistencia.toISOString());
-fechaAsistencia.getDate();
+console.log('Dia de la semana (0=domingo): ', fechaAsistencia.getDay());
 
 const hoy = new Date();
 const diaDeDiferencia = Math.round((fechaAsistencia - hoy) / (1000*60*60*24));
