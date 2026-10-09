@@ -4,7 +4,6 @@
   "description": "",
   "license": "ISC",
   "author": "AngelHer23423",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",

@@ -1,6 +1,6 @@
-import Menu from'../components/Menu'
+import Menu from'../components/Menu';
 import '../styles/style.css';
-export default function App ({component}, {pageProps}){
+export default function App ({Component, pageProps}){
     return(
         <>
         <Menu/>
