@@ -14,8 +14,7 @@ nav {
     background: #6b1d3a;
 }
 
-nav a,
-nav button {
+nav a,nav button {
     color: #fff;
     font-size: 15px;
     text-decoration: none;
