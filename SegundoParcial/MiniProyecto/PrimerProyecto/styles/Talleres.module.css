@@ -2,7 +2,7 @@
    Las clases se van agregando en los pasos 3 a 7 de la guía. */
 .rejilla {
    display:grid;
-   grid-template-columns: repeat(auto-fill, minmax(204px, 1fr));
+   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
    gap: 16px;
 }
 

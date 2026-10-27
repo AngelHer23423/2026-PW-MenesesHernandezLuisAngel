@@ -108,10 +108,8 @@ export default function Perfil() {
                 const libres = Math.max(0, t.cupo - ocupados);
                 return (
                 <li key={t.id}>
-                    <Link href={`/talleres/${t.id}`}>{t.nombre}</Link> — {libres} {libres === 1 ? 'lugar' : 'lugares'} ·{' '}
-                    <Link href={`/talleres/${t.id}?boleta=${buscada}&nombre=${encodeURIComponent(alumno ? alumno.nombre : nombreInscrito)}`}>
-                    Inscribirme
-                    </Link>
+                    {t.nombre} — {libres} {libres === 1 ? 'lugar' : 'lugares'} ·{' '}
+                    <Link href={`/talleres/${t.id}?boleta=${buscada}&nombre=${encodeURIComponent(nombre)}`}>Inscribirme</Link>
                 </li>
                 );
             })}

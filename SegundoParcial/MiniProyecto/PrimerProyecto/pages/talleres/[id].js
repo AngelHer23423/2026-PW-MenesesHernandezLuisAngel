@@ -130,7 +130,7 @@ export default function DetalleTaller() {
         <h2>Inscritos ({ocupados})</h2>
         {/* Tu turno: tabla de inscritos */}
         {ocupados === 0 ? (
-            <p>Todavía no hay ningun inscritos. !Sé el primero!</p>) : (
+            <p>Todavía no hay inscritos. ¡Sé el primero!</p>) : (
             <table>
         <thead>
         <tr>
