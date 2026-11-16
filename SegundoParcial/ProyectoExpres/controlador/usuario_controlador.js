@@ -29,7 +29,7 @@ async function obtenerUsuario(req, res) {
 }
 
 async function crearUsuario(req, res) {
-    const {nombre, correo, contrasena, boleta, rol} = req.body,
+    const {nombre, correo, contrasena, boleta, rol} = req.body
     if(!nombre || !correo || !contrasena || !boleta){
         return res.status(400).json({error: 'Los campos nombre, correo, contraseña, boleta son obligatorios'});
     }

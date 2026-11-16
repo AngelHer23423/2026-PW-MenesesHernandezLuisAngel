@@ -15,7 +15,7 @@ const NOMBRE_COOKIE = 'connect.sid';
 //Si hay una sesion preexistente obtenerla del almacen, sino crearla
 function todasLasSesiones(almacen){
   return new Promise ((resolve, reject) => {
-    const promesa = almace.all((error, sesiones) => (error ? reject(error) : resolve(sesiones)));
+    const promesa = almacen.all((error, sesiones) => (error ? reject(error) : resolve(sesiones)));
     if (promesa && typeof promesa.then=== 'function') promesa.then(resolve, reject);
   });
 }
@@ -29,19 +29,19 @@ function crearApp(config, pool){
 
 const almacen = config.almacen === 'memoria' ? new session.MemoryStore() : new MySQLStore({createDatabaseTable: false, clearExpired: false}, pool);
 app.locals.almacen = almacen;
-}
+
 
 app.use(
-  sesion({
+  session({
     name : NOMBRE_COOKIE,
     secret : process.env.SESSION_SECRET || 'secreto-solo.para-la-demo',
     store : almacen,
     resave : false,
     //no se crea la session ni la cookie
-    saveUnitialized : false,
-    rolling : CountQueuingStrategy.rolling || false,
+    saveUninitialized : false,
+    rolling : config.rolling || false,
     cookie : {
-      maxAge : config.maxAge || 1000*60*60*24,
+      maxAge : config.maxAgeMs || 1000*60*60*24,
       httpOnly : config.httpOnly || true,
       sameSite : config.sameSite || 'lax',
       secure : config.secure || false ,
@@ -57,11 +57,11 @@ const cortoId = (id) => (id ? `${id.slice(0,8)}...`: null);
 
 function vencida(sesion){
   const desde = config.rolling ? sesion.ultimoUso : sesion.creada;
-  return Date.now() - desde > config.maxAge;
+  return Date.now() - desde > config.maxAgeMs;
 }
 
-function requiereSesion(res, req, next){
-  if(req.session.usuario && vencida(req.sesion)){
+function requiereSesion(req, res, next){
+  if(req.session.usuario && vencida(req.session)){
     return req.session.destroy(()=>{
       res.clearCookie(NOMBRE_COOKIE);
       res.status(401).json({error: '401 tu sesion ya expiro'})
@@ -77,11 +77,11 @@ function requiereSesion(res, req, next){
 function requiereRol(rol){
   return (req, res, next)=>{
     if(req.session.usuario.rol !==rol){
-      return res.status(403).json({error: `Eres ${res.session.usuario.usuario}, pero esta ruta es para ${rol}`});
+      return res.status(403).json({error: `Eres ${req.session.usuario.usuario}, pero esta ruta es para ${rol}`});
     }
     next();
   };
-
+}
   //vamos a definir las rutas de acceso
   app.get('/api/config', (req, res)=>{
     res.json(config);
@@ -90,17 +90,17 @@ function requiereRol(rol){
   app.post('/api/visita', (req, res)=>{
     if(!req.session) return res.json({error: 'no tiene acceso'});
     req.session.visitas = (req.session.visitas || 0 ) + 1;
-    res.json({visitas : req.session.visitas, sesion : idCorto(req.sessionID)});
+    res.json({visitas : req.session.visitas, sesion : cortoId(req.sessionID)});
   });
 
   app.post('/api/login', async(req, res, next)=>{
     try{
       const {usuario, contrasena} = req.body || {};
-      const datos = await usuarios.verificar(usuario, constrasena);
+      const datos = await usuarios.verificar(usuario, contrasena);
       if (!datos) return res.status(401).json({
         error: 'Usuario o contraseña incorrectos'
       });
-      const antes = req.session.visitas !== undefined ? idCorto(req.sessionID) : null;
+      const antes = req.session.visitas !== undefined ? cortoId(req.sessionID) : null;
       const visitas = req.session.visitas || 0 ;
 
       //Tenemos que guardar los datos de la sesion
@@ -111,10 +111,10 @@ function requiereRol(rol){
         req.session.ultimoUso = Date.now();
         req.session.save((error)=>{
           if (error) return next(error);
-          res.json({usuario:datos, sesionAntes: antes, sesionDespues:idCorto(req.sessionID)});
+          res.json({usuario:datos, sesionAntes: antes, sesionDespues:cortoId(req.sessionID)});
         });
       }
-      if(configuracion.regenerarAlEntrar){
+      if(config.regenerarAlEntrar){
         req.session.regenerate((error)=>(error ? next(error) : guardar() ));
       } else{
         guardar();
@@ -124,11 +124,11 @@ function requiereRol(rol){
     }
   });
 
-  app.post('/api/logout', (req, res)=>{
+  app.post('/api/logout', (req, res, next)=>{
     req.session.destroy((error)=>{
       if (error) return next(error);
       res.clearCookie(NOMBRE_COOKIE);
-      res.json({mensahe: 'Sesion cerrada'})
+      res.json({mensaje: 'Sesion cerrada'})
     });
   });
 
@@ -136,8 +136,8 @@ function requiereRol(rol){
     const desde = config.rolling ? req.session.ultimoUso : req.session.creada;
     res.json({
       usuario : req.session.usuario,
-      sesion : idCorto(req.sessionID),
-      expiraEnSegundos : Math.max(0,Math.round((desde + config.maxAge - Date.now())/10000))
+      sesion : cortoId(req.sessionID),
+      expiraEnSegundos : Math.max(0,Math.round((desde + config.maxAgeMs - Date.now())/1000))
     });
 
   })
@@ -145,45 +145,48 @@ function requiereRol(rol){
   app.get('/api/perfil', requiereSesion, (req, res,)=>{
     req.session.visitas = (req.session.visitas || 0)+1;
     res.json({
-      mensaje : `Hola ${req.session.usuario.nombre},
-      rol :  ${req.session.usuario.rol},
-      visitas : ${req.session.visitas}`
+      mensaje : `Hola, ${req.session.usuario.nombre}`,
+      rol :  req.session.usuario.rol,
+      visitas : req.session.visitas
     });
   });
 
+  app.get('/api/admin/reporte', requiereSesion, requiereRol('admin'), (req, res)=>{
+    res.json({ reporte: 'Talleres: 3 · Inscritos: 57 · Cupo libre: 18' });
+  });
   //Vanos a desarrollar una prueba unitaria para verificar con V o F las pruebas ejecutadas
 
-  app.get('/api/diagnostico', async(req, res, next)=>{
+  app.get('/api/diagnostico/sesiones', async(req, res, next)=>{
     try{
       const sesiones = await todasLasSesiones(almacen);
       const lista = Object.entries(sesiones || {}).map(([id, s])=>({
-        sesion : idCorto(id),
+        sesion : cortoId(id),
         esLaTuya : id === req.sessionID,
         usuario : s.usuario ? s.usuario.usuario : 'Sin iniciar sesion',
         visitas : s.visitas || 0,
-        expira : s.cookie && cookie.expires,
+        expira : s.cookie && s.cookie.expires,
       }));
       res.json({
         almacen: config.almacen,
         sesiones : lista
-      })
+      });
     }catch(error){
       next(error);
     }
   });
 
-  app.use(express.static(path.join(___dirname, 'public')));
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use((error, req, res, next)=>{
     console.error(error);
     res.status(500).json({error : 'Error del servidor'})
   })
   app.use('/api', (req, res)=>{
     res.status(404).json({error : 'Ruta no encontrada'})
-  })
+  });
   return app;
 }
 module.exports = {crearApp, NOMBRE_COOKIE}
 
 //tarea 1 deberan de realizar una infografia sobre la autenticacion con el uso de jwt y como se implementa para el domingo
- 
+
 //tarea 2 con el uso del archivo que se les va a a proveer deberan de completar y realizar las pruebas al ejercicio de sesiones en el archivo llamado xxx para implementar en el archivo demo.js, se revisara la siguiente clase
