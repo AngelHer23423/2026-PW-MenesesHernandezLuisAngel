@@ -41,8 +41,8 @@ app.use(
     saveUninitialized : false,
     rolling : config.rolling || false,
     cookie : {
-      maxAge : config.maxAgeMs || 1000*60*60*24,
-      httpOnly : config.httpOnly || true,
+      maxAge : config.maxAgeMs || 10*1000*60,
+      httpOnly : config.httpOnly !== undefined ? config.httpOnly : true,
       sameSite : config.sameSite || 'lax',
       secure : config.secure || false ,
     }
