@@ -21,4 +21,14 @@ module.exports = {
 
   // true: al iniciar sesión el servidor cambia el id de la sesión (protege contra la fijación de sesión).
   regenerarAlEntrar: true,
+
+  //Duracion del token en segundos
+  jwtExpiraSeg : 5*60,
+
+  //Tenemos que identificar si el token es valido o no para la sesion para ello vamos revocarlo y colocarlo en una lista negra
+  jwtRevocar: true,
+
 };
+
+//Para el jwt necesitamos dos variables mas para modificar dicha sesion
+
